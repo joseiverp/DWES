@@ -1,7 +1,5 @@
 <?php
     //Representa un libro mediante un array asociativo con id, titulo, autor, paginas y disponible.
-
-
     $libro = [
         'id' => 1,
         'titulo' => "Sinfonia",
@@ -16,6 +14,6 @@
 
     // Muestra cada pareja clave–valor.
     foreach ($libro as $clave => $valor) {
-        echo $clave . " => " . $valor . "<br>";
+        echo $clave . " = " . $valor . "<br>";
     }
 ?>
