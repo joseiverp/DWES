@@ -4,8 +4,14 @@
     $novedades2 = [4, 5, 6];
 
     // Combínalos con array_merge.
-    $arrayCombinado = array_merge($novedades1, $novedades2);
+    $todasNovedades = array_merge($novedades1, $novedades2);
 
-    // Elimina posibles posiciones que ya no
-    // sean consecutivas después de un unset y muestra el resultado final con índices consecutivos.
+    // Elimina posibles posiciones que ya no sean consecutivas después de un unset
+    unset($todasNovedades[1]);
+
+    $todasNovedades = array_values($todasNovedades);
+
+    foreach ($todasNovedades as $novedades)
+        echo $novedades . "<br>";
+    // muestra el resultado final con índices consecutivos.
 ?>
