@@ -2,32 +2,26 @@
 Utiliza la sintaxis corta para mostrar cada título. -->
 
 <?php
-
-$titulos = [
-    "Dune",
-    "1984",
-    "El Hobbit",
-    "Fundación"
-];
-
+    $titulos = [
+        'libro1',
+        'libro2',
+        'libro3',
+        'libro4'
+    ];
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libros</title>
 </head>
-
 <body>
-
     <ul>
-        <?php foreach ($titulos as $titulo): ?>
-            <li><?= $titulo ?></li>
-        <?php endforeach; ?>
+        <?php
+            foreach($libro as $libro)
+        ?>
     </ul>
-
 </body>
 </html>
-
-
