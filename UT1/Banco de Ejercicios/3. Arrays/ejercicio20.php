@@ -11,7 +11,12 @@
     $cantidad = count($paginas);
 
     echo "minimo: " . $minimo . "<br>";
-    echo "maximo: " . $maximo;
+    echo "maximo: " . $maximo . "<br>";
+    echo "media: " . $maximo . "<br>";
     
-    //  calcula la suma recorriendo el array.
+    //  Calcula la suma recorriendo el array.
+    $suma = 0;
+    foreach($paginas as $pagina){
+        $suma += $pagina;
+    }
 ?>
