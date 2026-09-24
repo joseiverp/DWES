@@ -11,7 +11,6 @@
 
     $todasNovedades = array_values($todasNovedades);
 
-    foreach ($todasNovedades as $novedades)
-        echo $novedades . "<br>";
     // muestra el resultado final con índices consecutivos.
-?>
+    foreach ($todasNovedades as $novedades) echo $novedades . "<br>";
+    ?>
