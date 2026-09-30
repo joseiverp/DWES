@@ -18,7 +18,7 @@
     $maxDias = match($tipo) {
         'alumno' => 15,
         'profesor' => 30,
-        'externo' => 7
+        'externo' => 7 // ppuede cambiar se a 'default'
     };
 
     // Si tiene renovacion, añadimos 7 dias excepto si es externo
