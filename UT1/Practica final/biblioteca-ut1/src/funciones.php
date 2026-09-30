@@ -59,6 +59,6 @@
     }
 
     function ordenarPorTitulo(array $libros): array {
-        $ordenados
-    }
+        $ordenados = 0;
+}
 ?>
