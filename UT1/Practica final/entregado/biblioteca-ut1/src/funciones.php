@@ -45,20 +45,12 @@
         return $mediaPaginas;
     }
 
-    function obtenerLibroMasLargo(array $libros): ?array {
-
-        $libroMasLargo = null;
-
+    function obtenerLibrosMasLargo(array $libros): ?array {
+        $libroMasLargo = [];
         foreach ($libros as $libro) {
-            if ($libroMasLargo === null || $libro["paginas"] > $libroMasLargo["paginas"]) {
+            if ($libroMasLargo === null) {
                 $libroMasLargo = $libro;
             }
         }
-
-        return $libroMasLargo;
     }
-
-    function ordenarPorTitulo(array $libros): array {
-        $ordenados = 0;
-}
 ?>
