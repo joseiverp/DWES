@@ -8,6 +8,7 @@ require_once __DIR__ . '\..\src\funciones.php';
 
 // Poner la zona horaria
 // timezone_identifiers_list;
+date_default_timezone_set('Europe/Madrid');
 
 // 3.1. Leer parámetros
 $genero = $_GET['genero'] ?? null;
@@ -38,7 +39,7 @@ $resultados = $videojuegos;
 // Ordena las dos colecciones anteriores manteniendo la relación entre claves y valores.
 
 $timestampConsulta = time();
-$fechaConsulta = new DateTimeImmutable('today'); // COMPLETAR
+$fechaConsulta = date('d/m/Y H:i', $timestampConsulta);
 ?>
 <!doctype html>
 <html lang="es">
@@ -69,7 +70,8 @@ $fechaConsulta = new DateTimeImmutable('today'); // COMPLETAR
 
         <label>
             Buscar:
-            <input type="text" name="q" value="<?= $busqueda ?>">
+            <!-- Si lo llamas $q cámbialo, claro -->
+            <input type="text" name="q" value="<?= $q ?>">
         </label>
 
         <label>
@@ -99,14 +101,15 @@ $fechaConsulta = new DateTimeImmutable('today'); // COMPLETAR
 
     <h2>Plataformas por código</h2>
     <ul>
-        <?php foreach ($plataformasOrdenadas as $codigo => $nombre): ?>
+        <!-- Ya que no ordenas, que no de fallo -->
+        <?php foreach ($plataformas as $codigo => $nombre): ?>
             <li><?= htmlspecialchars((string) $codigo) ?>: <?= htmlspecialchars((string) $nombre) ?></li>
         <?php endforeach; ?>
     </ul>
 
     <h2>Ventas de la semana</h2>
     <ul>
-        <?php foreach ($ventasOrdenadas as $codigo => $ventas): ?>
+        <?php foreach ($ventasSemana as $codigo => $ventas): ?>
             <li><?= htmlspecialchars((string) $codigo) ?>: <?= $ventas ?></li>
         <?php endforeach; ?>
     </ul>
