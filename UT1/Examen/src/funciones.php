@@ -106,34 +106,3 @@ function ordenarVideojuegos(array $videojuegos, string $criterio): array
 
     return $videojuegos;
 }
-
-
-
-
-
-
-
-
-
-function ordenarVideojuegos(array $videojuegos, string $criterio): array
-{
-    $criterio = normalizarTexto($criterio);
-    $cantidad = count($videojuegos);
-
-    for ($i = 0; $i < $cantidad; $i++) {
-        for ($j = 0; $j < $cantidad - 1; $j++) {
-            $actual = $videojuegos[$i];
-            $siguiente = $videojuegos[$j + 1];
-
-            $intercambiar = false;
-
-            if ($intercambiar) {
-                $temporal = $videojuegos[$j];
-                $videojuegos[$j] = $videojuegos[$j + 1];
-                $videojuegos[$j + 1] = $temporal;
-            }
-        }
-    }
-
-    return $videojuegos;
-}

@@ -53,9 +53,15 @@ if ($q !== ''){
 $resultados = ordenarVideojuegos($resultados, $orden);
 // 3.5. Ordenar salida
 // Ordena las dos colecciones anteriores manteniendo la relación entre claves y valores.
+$plataformasOrdenadas = $plataformas;
+ksort($plataformasOrdenadas);
+
+$ventasOrdenadas = $ventasSemana;
+asort($ventasOrdenadas);
+
 
 $timestampConsulta = time();
-$fechaConsulta = ''; // COMPLETAR
+$fechaConsulta = date('d/m/Y H:i:s', $timestampConsulta); // COMPLETAR
 ?>
 <!doctype html>
 <html lang="es">
@@ -86,7 +92,7 @@ $fechaConsulta = ''; // COMPLETAR
 
         <label>
             Buscar:
-            <input type="text" name="q" value="<?= $busqueda ?>">
+            <input type="text" name="q" value="<?= htmlspecialchars($q) ?>">
         </label>
 
         <label>
@@ -101,13 +107,15 @@ $fechaConsulta = ''; // COMPLETAR
         <button type="submit">Aplicar</button>
     </form>
 
-    <p>Resultados: <!-- COMPLETAR --></p>
+    <p>Resultados: <?= count($resultados) ?> <!-- COMPLETAR --></p>
 
     <ul>
         <?php foreach ($resultados as $videojuego): ?>
             <li>
                 <!-- Construye aquí el enlace a videojuego.php enviando su id. -->
-                <?= htmlspecialchars($videojuego['titulo']) ?>
+                <a href="videojuego.php?id=<?= $videojuego['id'] ?>">
+                    <?= htmlspecialchars($videojuego['titulo']) ?>
+                </a>
                 · <?= number_format($videojuego['precio'], 2, ',', '.') ?> €
                 · <?= $videojuego['puntuacion'] ?>/10
             </li>
