@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../src/datos.php';
+require_once __DIR__ . '/../src/funciones.php';
+
 $id = $_GET['id'] ?? 0;
 $id = (int) $id; 
 
@@ -14,7 +19,11 @@ if ($videojuego === null) {
         <title>Videojuego no encontrado</title>
     </head>
     <body>
-        <p>Videojuego no encontrado.</p>
+        <h1>Videojuego no encontrado</h1>
+
+        <p>No existe ningún videojuego con el id <?= $id ?>.</p>
+
+        <p><a href="index.php">Volver al catálogo</a></p>
     </body>
     </html>
 
@@ -24,14 +33,18 @@ if ($videojuego === null) {
 ?>
 
 
-// Prepara las fechas y los valores que necesita la ficha
 <?php
+//Prepara las fechas y los valores que necesita la ficha 
 $fechaLanzamiento = new DateTimeImmutable($videojuego['fechaLanzamiento']);// De dónde saco la fecha??
 $hoy = new DateTimeImmutable('today');
 $diasTranscurridos = $fechaLanzamiento->diff($hoy)->days; //0? Habrá que calcular algo, no?
 $finNovedad = $fechaLanzamiento->modify('+30 days');
-$estado = '';
 
+if($hoy >= $finNovedad) {
+    $estado = 'catalogo';
+}else {
+    $estado = 'novedad';
+}
 // COMPLETAR los cálculos anteriores utilizando los datos del videojuego.
 ?>
 <!doctype html>
@@ -70,10 +83,10 @@ $estado = '';
         <dd><?= $diasTranscurridos ?><!-- COMPLETAR --></dd>
 
         <dt>Fin del periodo de novedad</dt>
-        <dd><!-- COMPLETAR --></dd>
+        <dd><?= $finNovedad->format('d/m/Y') ?><!-- COMPLETAR --></dd>
 
         <dt>Estado</dt>
-        <dd><!-- COMPLETAR --></dd>
+        <dd><?= $estado ?></dd>
     </dl>
 
     <p><a href="index.php">Volver al catálogo</a></p>

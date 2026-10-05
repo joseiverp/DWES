@@ -75,12 +75,6 @@ function buscarPorTexto(array $videojuegos, string $texto): array
 }
 
 
-
-
-
-
-
-
 function ordenarVideojuegos(array $videojuegos, string $criterio): array
 {
     $criterio = normalizarTexto($criterio);
