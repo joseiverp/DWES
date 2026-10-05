@@ -1,7 +1,11 @@
 <?php
+$id = $_GET['id'] ?? 0;
+$id = (int) $id; 
 
+$videojuego = buscarPorId($videojuegos, $id);
+
+// Completa el tratamiento del caso en el que el videojuego no existe.
 if ($videojuego === null) {
-    // Completa el tratamiento del caso en el que el videojuego no existe.
     ?>
     <!doctype html>
     <html lang="es">
@@ -10,17 +14,22 @@ if ($videojuego === null) {
         <title>Videojuego no encontrado</title>
     </head>
     <body>
+        <p>Videojuego no encontrado.</p>
     </body>
     </html>
+
     <?php
     exit;
 }
+?>
 
-// Prepara las fechas y los valores que necesita la ficha.
-$fechaLanzamiento = ;// De dónde saco la fecha??
-$hoy = new DateTimeImmutable();
-$diasTranscurridos = 0; //0? Habrá que calcular algo, no?
-$finNovedad = null;
+
+// Prepara las fechas y los valores que necesita la ficha
+<?php
+$fechaLanzamiento = new DateTimeImmutable($videojuego['fechaLanzamiento']);// De dónde saco la fecha??
+$hoy = new DateTimeImmutable('today');
+$diasTranscurridos = $fechaLanzamiento->diff($hoy)->days; //0? Habrá que calcular algo, no?
+$finNovedad = $fechaLanzamiento->modify('+30 days');
 $estado = '';
 
 // COMPLETAR los cálculos anteriores utilizando los datos del videojuego.
@@ -55,10 +64,10 @@ $estado = '';
         <dd><?= $videojuego['puntuacion'] ?? '' ?></dd>
 
         <dt>Fecha de lanzamiento</dt>
-        <dd><!-- COMPLETAR --></dd>
+        <dd><?= $fechaLanzamiento->format('d/m/Y') ?><!-- COMPLETAR --></dd>
 
         <dt>Días desde el lanzamiento</dt>
-        <dd><!-- COMPLETAR --></dd>
+        <dd><?= $diasTranscurridos ?><!-- COMPLETAR --></dd>
 
         <dt>Fin del periodo de novedad</dt>
         <dd><!-- COMPLETAR --></dd>
