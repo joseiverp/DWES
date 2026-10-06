@@ -58,7 +58,7 @@ function buscarPorTexto(array $videojuegos, string $texto): array
     $texto = normalizarTexto($texto);
 
     if ($texto === '') {
-        return $videojuegos;
+        return $videojuegos; // revissar esto en casa 
     }
 
     foreach ($videojuegos as $videojuego) {
