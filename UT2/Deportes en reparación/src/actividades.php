@@ -4,26 +4,45 @@ declare(strict_types=1);
 
 function limpiarEspacios(string $texto): string
 {
-    // TODO 1: limpiar extremos y agrupar espacios consecutivos.
+    // TODO 1: limpiar extremos y agrupar espacios consecutivos.🟢
     $texto = trim($texto);
+    $texto = preg_replace('/\S+', ' ', $texto);
+
     return $texto;
 }
 
 function normalizarBusqueda(string $texto): string
 {
-    // REVISAR: ¿funciona con PÁDEL y ÓRBITA?
-    return strtolower(limpiarEspacios($texto));
+    // REVISAR: ¿funciona con PÁDEL y ÓRBITA? 🟢
+    return mb_strtolower(limpiarEspacios($texto), 'UTF-8');
 }
 
 function obtenerCategorias(array $actividades): array
 {
-    // TODO 2: extraer categorías sin duplicados en orden de aparición.
-    return [];
+    // TODO 2: extraer categorías sin duplicados en orden de aparición.🟢
+    $categorias = array_column($actividades, 'categoria');
+    $categorias = array_unique($categorias);
+    $categorias = array_values($categorias);
+    return $categorias;
 }
 
 function categoriaValida(string $categoria, array $categorias): bool
 {
-    return $categoria === '' || (bool) array_search($categoria, $categorias, true);
+    return $categoria === ''
+        || array_search($categoria, $categorias, true) !== false;
+
+        /*
+        
+            CODIGO EQUIVALENTE PERO ESCRITO DE MANERA QUE SEA MAS FACIL DE APRENDER
+            if ($categoria === '') {
+                return true;
+            }
+
+            $posicion = array_search($categoria, $categorias, true);
+
+            return $posicion !== false;
+
+        */
 }
 
 function plazasOcupadas(array $reservas, int $actividadId): int
@@ -46,16 +65,59 @@ function prepararActividades(array $actividades, array $reservas): array
     );
 }
 
+
+
+
+
+
+
+// function filtrarActividades(
+//     array $actividades,
+//     string $texto,
+//     string $categoria,
+//     bool $soloConPlazas
+// ): array
+// {
+//     // TODO 3: filtrar por nombre, categoría y plazas libres.
+//     return [];
+// }
+
+
+
+
 function filtrarActividades(
     array $actividades,
     string $texto,
     string $categoria,
     bool $soloConPlazas
-): array
+    ): array
 {
     // TODO 3: filtrar por nombre, categoría y plazas libres.
-    return [];
+    $textoNormalizado = normalizarBusqueda($texto);
+
+    return array_filter(
+        $actividades,
+        fn(array $actividad): bool => 
+        (
+            $textoNormalizado === ''
+            || str_contains(normalizarBusqueda($actividad['nombre']),
+                $textoNormalizado
+            )
+        )
+        &&
+        (
+            $categoria === ''
+            || $actividad['categoria'] == $categoria
+        )
+        &&
+        (
+            !$soloConPlazas
+            || $actividad['libre'] > 0
+        )
+    );
 }
+
+
 
 function ordenarActividades(array $actividades, string $orden): array
 {
