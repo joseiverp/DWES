@@ -71,55 +71,12 @@ function prepararActividades(array $actividades, array $reservas): array
 
 
 
-// function filtrarActividades(
-//     array $actividades,
-//     string $texto,
-//     string $categoria,
-//     bool $soloConPlazas
-// ): array
-// {
-//     // TODO 3: filtrar por nombre, categoría y plazas libres.
-//     return [];
-// }
 
 
 
 
-// function filtrarActividades(
-//     array $actividades,
-//     string $texto,
-//     string $categoria,
-//     bool $soloConPlazas
-//     ): array
-// {
-//     // TODO 3: filtrar por nombre, categoría y plazas libres. 
-//     // Preguntas CHATGPT: entonces array_filter solo puede recibir un array de array ($actividades) y el callback solo un array ($actividad)? 
-//     $textoNormalizado = normalizarBusqueda($texto);
-
-//     return array_filter(
-//         $actividades,
-//         fn(array $actividad): bool => 
-//         (
-//             $textoNormalizado === ''
-//             || str_contains(normalizarBusqueda($actividad['nombre']),
-//                 $textoNormalizado
-//             )
-//         )
-//         &&
-//         (
-//             $categoria === ''
-//             || $actividad['categoria'] == $categoria
-//         )
-//         &&
-//         (
-//             !$soloConPlazas
-//             || $actividad['libre'] > 0
-//         )
-//     );
-// }
-
-
-
+   // Preguntar a CHATGPT: entonces array_filter solo puede recibir
+   //  un array de array ($actividades) y el callback solo un array ($actividad)? 
 
 function filtrarActividades(
     array $actividades,
@@ -130,26 +87,90 @@ function filtrarActividades(
 {
     $textoNormalizado = normalizarBusqueda($texto);
 
-    return array_filter($actividades, fn(array $actividad): bool =>
-        $textoNormalizado === ''
-        ||
-        str_contains(normalizarBusqueda($actividad['nombre']), $textoNormalizado)
-        &&
-        $categoria === '' || $actividad['categoria'] === $categoria   
+    return array_filter(
+        $actividades,
+        fn(array $actividad): bool =>
+            (
+                $textoNormalizado === ''
+                ||
+                str_contains(normalizarBusqueda($actividad['nombre']), $textoNormalizado)
+            )
+            &&
+            (
+                $categoria === ''
+                ||
+                $actividad['categoria'] === $categoria
+            )
+            &&
+            (
+                $soloConPlazas === false 
+                ||
+                $actividad['libres'] > 0
+            )    
     );
 }
 
 
 
 
+// MANERA PARA APRENDER 
+
+// function ordenarActividades(array $actividades, string $orden): array
+// {
+//     // TODO 4: ordenar una copia según el criterio y desempatar por id.
+//     usort (
+//         $actividades,
+//         function (array $a, array $b) use ($orden):int {
+
+//             if ($orden === 'libres'){
+//                 $resultado = $a['libre'] <=> $b['libre'];
+//             } else {
+//                 $resultado =
+//                     normalizarBusqueda($a['nombre'])
+//                     <=>
+//                     normalizarBusqueda($b['nombre'])
+//             }
+
+//             if ($resultado === 0) {
+//                 $resultado = $a['id'] <=> $b['b'];
+//             }
+
+//             return $resultado;
+//         }
+//     );
+//     return $actividades;
+// }
 
 
+
+// USANDO TERNARIO
 
 function ordenarActividades(array $actividades, string $orden): array
 {
     // TODO 4: ordenar una copia según el criterio y desempatar por id.
+    usort (
+        $actividades,
+        function (array $a, array $b) use ($orden):int {
+
+            $resultado = $orden === 'libres' 
+                ? $a['libre'] <=> $b['libre']
+                : normalizarBusqueda($a['nombre'])
+                    <=> normalizarBusqueda($b['nombre']);
+            
+            return resultado === 0
+                ? $a['id'] <=> $b['b']
+                : $resultado;
+
+        }
+    );
     return $actividades;
 }
+
+
+
+
+
+
 
 function resumirActividades(array $actividades): array
 {
