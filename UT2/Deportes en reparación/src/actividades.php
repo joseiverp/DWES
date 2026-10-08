@@ -6,7 +6,7 @@ function limpiarEspacios(string $texto): string
 {
     // TODO 1: limpiar extremos y agrupar espacios consecutivos.🟢
     $texto = trim($texto);
-    $texto = preg_replace('/\S+', ' ', $texto);
+    $texto = preg_replace('/\S+/', ' ', $texto);
 
     return $texto;
 }
@@ -85,6 +85,42 @@ function prepararActividades(array $actividades, array $reservas): array
 
 
 
+// function filtrarActividades(
+//     array $actividades,
+//     string $texto,
+//     string $categoria,
+//     bool $soloConPlazas
+//     ): array
+// {
+//     // TODO 3: filtrar por nombre, categoría y plazas libres. 
+//     // Preguntas CHATGPT: entonces array_filter solo puede recibir un array de array ($actividades) y el callback solo un array ($actividad)? 
+//     $textoNormalizado = normalizarBusqueda($texto);
+
+//     return array_filter(
+//         $actividades,
+//         fn(array $actividad): bool => 
+//         (
+//             $textoNormalizado === ''
+//             || str_contains(normalizarBusqueda($actividad['nombre']),
+//                 $textoNormalizado
+//             )
+//         )
+//         &&
+//         (
+//             $categoria === ''
+//             || $actividad['categoria'] == $categoria
+//         )
+//         &&
+//         (
+//             !$soloConPlazas
+//             || $actividad['libre'] > 0
+//         )
+//     );
+// }
+
+
+
+
 function filtrarActividades(
     array $actividades,
     string $texto,
@@ -92,30 +128,20 @@ function filtrarActividades(
     bool $soloConPlazas
     ): array
 {
-    // TODO 3: filtrar por nombre, categoría y plazas libres.
     $textoNormalizado = normalizarBusqueda($texto);
 
-    return array_filter(
-        $actividades,
-        fn(array $actividad): bool => 
-        (
-            $textoNormalizado === ''
-            || str_contains(normalizarBusqueda($actividad['nombre']),
-                $textoNormalizado
-            )
-        )
+    return array_filter($actividades, fn(array $actividad): bool =>
+        $textoNormalizado === ''
+        ||
+        str_contains(normalizarBusqueda($actividad['nombre']), $textoNormalizado)
         &&
-        (
-            $categoria === ''
-            || $actividad['categoria'] == $categoria
-        )
-        &&
-        (
-            !$soloConPlazas
-            || $actividad['libre'] > 0
-        )
+        $categoria === '' || $actividad['categoria'] === $categoria   
     );
 }
+
+
+
+
 
 
 
