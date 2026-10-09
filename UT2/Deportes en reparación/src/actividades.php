@@ -48,7 +48,14 @@ function categoriaValida(string $categoria, array $categorias): bool
 function plazasOcupadas(array $reservas, int $actividadId): int
 {
     // TODO 5: sumar plazas de reservas confirmadas de esta actividad.
-    return 0;
+    $reservasConfirmadas = array_filter(
+        $reservas,
+        fn (array $reserva): bool =>
+            $reserva['actividadId'] === $actividadId
+            &&
+            $reserva['confirmada'] === 'confirmada'
+    );
+    
 }
 
 // Función facilitada: añade los cálculos a una copia de cada actividad.
@@ -65,18 +72,6 @@ function prepararActividades(array $actividades, array $reservas): array
     );
 }
 
-
-
-
-
-
-
-
-
-
-
-   // Preguntar a CHATGPT: entonces array_filter solo puede recibir
-   //  un array de array ($actividades) y el callback solo un array ($actividad)? 
 
 function filtrarActividades(
     array $actividades,
@@ -145,31 +140,30 @@ function filtrarActividades(
 
 // USANDO TERNARIO
 
-function ordenarActividades(array $actividades, string $orden): array
-{
-    // TODO 4: ordenar una copia según el criterio y desempatar por id.
-    usort (
-        $actividades,
-        function (array $a, array $b) use ($orden):int {
+// function ordenarActividades(array $actividades, string $orden): array
+// {
+//     // TODO 4: ordenar una copia según el criterio y desempatar por id.
+//     usort (
+//         $actividades,
+//         function (array $a, array $b) use ($orden):int {
 
-            $resultado = $orden === 'libres' 
-                ? $a['libre'] <=> $b['libre']
-                : normalizarBusqueda($a['nombre'])
-                    <=> normalizarBusqueda($b['nombre']);
-            
-            return resultado === 0
-                ? $a['id'] <=> $b['b']
-                : $resultado;
+//             $resultado = $orden === 'libres' 
+//                 ? $a['libres'] <=> $b['libres']
+//                 : normalizarBusqueda($a['nombre'])
+//                     <=> normalizarBusqueda($b['nombre']);
 
-        }
-    );
-    return $actividades;
-}
+//             return $resultado === 0
+//                 ? $a['id'] <=> $b['id']
+//                 : $resultado;
 
-
+//         }
+//     );
+//     return $actividades;
+// }
 
 
 
+// INTENTAR HACER AQUI LA FUNCION DE ARRIBA PERO USANDO TERNARIO + FN 
 
 
 function resumirActividades(array $actividades): array
@@ -219,7 +213,7 @@ function monitorVisible(?string $monitor): string
 }
 
 function inicioNombre(string $nombre): string
-{
+{  
     return substr(limpiarEspacios($nombre), 0, 3);
 }
 
