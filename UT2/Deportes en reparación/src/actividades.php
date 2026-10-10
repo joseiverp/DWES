@@ -47,15 +47,20 @@ function categoriaValida(string $categoria, array $categorias): bool
 
 function plazasOcupadas(array $reservas, int $actividadId): int
 {
-    // TODO 5: sumar plazas de reservas confirmadas de esta actividad.
-    $reservasConfirmadas = array_filter(
+    $reservasFiltradas = array_filter(
         $reservas,
-        fn (array $reserva): bool =>
-            $reserva['actividadId'] === $actividadId
+        fn(array $reserva): bool =>
+            $reserva['actividadId'] === 'actividadId'
             &&
-            $reserva['confirmada'] === 'confirmada'
+            $reserva['estado'] === 'confirmada'
     );
-    
+
+    return array_reduce(
+        $reservasFiltradas,
+        fn(array $reserva, int $suma): int =>
+            $suma + $reserva['plazas'],
+        0
+    );
 }
 
 // Función facilitada: añade los cálculos a una copia de cada actividad.
@@ -176,9 +181,22 @@ function resumirActividades(array $actividades): array
             fn(int $s, array $a): int => $s + $a['ocupadas'],
             0
         ),
-        'libres' => 0, // TODO 6: sumar plazas libres
-        'hayCompletas' => false, // TODO 7: comprobar si alguna está completa
-        'todasConPlazas' => false, // TODO 8: comprobar si todas tienen plazas
+        'libres' => array_reduce(       // TODO 6: sumar plazas libres
+            $actividades,
+            fn(int $suma, array $actividad):int =>
+                $suma + $actividad['libres'],
+            0
+        ), 
+        'hayCompletas' => array_any(        // TODO 7: comprobar si alguna está completa
+            $actividades,
+            fn(array $actividad): bool =>
+                $actividad['libres'] === 0
+        ), 
+        'todasConPlazas' => array_all(      // TODO 8: comprobar si todas tienen plazas
+            $actividades,
+            fn (array $actividad): bool =>
+                $actividad['libres'] > 0
+        ) 
     ];
 }
 
