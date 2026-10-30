@@ -1,0 +1,16 @@
+{
+    "name": "jose/penarrieta",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Jose\\Biblioteca\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Joseip",
+            "email": "14499483@alu.murciaeduca.es"
+        }
+    ],
+    "require": {}
+}

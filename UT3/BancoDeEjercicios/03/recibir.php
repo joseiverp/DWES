@@ -1,7 +1,7 @@
 <?php
+$titulo = '';
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $esPost = $metodo === 'POST';
-$titulo = '';
 if ($esPost) {
      $entrada = $_POST['titulo'] ?? '';
      if (!is_string($entrada)) {
@@ -9,3 +9,7 @@ if ($esPost) {
      }
      $titulo = trim($entrada);
 }
+
+$titulo = '';
+$metodo = $SERVER['REQUEST_METHOD'] ?? 'GET';
+$esPost = $metodo === 'POST';

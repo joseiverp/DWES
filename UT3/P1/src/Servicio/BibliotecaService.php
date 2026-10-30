@@ -26,7 +26,7 @@ class BibliotecaService {
 
         return array_filter(
             $this->todos(),
-            fn(Libro $1) => (str_contains(self::normalizar($l->titulo()), $texto)
+            fn(Libro $l) => (str_contains(self::normalizar($l->titulo()), $texto)
                 || str_contains(self)
             )
         );
