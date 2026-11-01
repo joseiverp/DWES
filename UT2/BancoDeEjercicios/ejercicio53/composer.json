@@ -1,0 +1,16 @@
+{
+    "name": "aula/ejercicio53",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "joseiverp",
+            "email": "14499483@alu.murciaeduca.es"
+        }
+    ],
+    "require": {}
+}
