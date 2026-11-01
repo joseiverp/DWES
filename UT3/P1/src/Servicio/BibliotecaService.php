@@ -2,63 +2,87 @@
 
 declare(strict_types=1);
 
-namespace Juan\Biblioteca\Servicio;
-use Juan\Biblioteca\Modelo\Libro;
+namespace Jose\Biblioteca\Servicio;
 
-class BibliotecaService {
+use Jose\Biblioteca\Modelo\Libro;
 
-    public function __construct(private array $libros) {}
-    
-    public function todos(): array {
+class BibliotecaService
+{
+    public function __construct(
+        private array $libros
+    ) {
+    }
+
+    public function todos(): array
+    {
         return $this->libros;
     }
 
-    public function agregar(Libro $libro): void {
-        $libros[] = $libro;
+    public function agregar(Libro $libro): void
+    {
+        $this->libros[] = $libro;
     }
 
-    public function filtrar (
+    public function filtrar(
         string $q,
         string $genero,
         string $tipo,
+        bool $soloDestacados
     ): array {
-        $texto = self:: normalizar($q);
+        $qNormalizado = mb_strtolower(trim($q), 'UTF-8');
 
-        return array_filter(
-            $this->todos(),
-            fn(Libro $l) => (str_contains(self::normalizar($l->titulo()), $texto)
-                || str_contains(self)
-            )
-        );
+        // aplicamos los filtros activos combinados con AND
+        $filtrados = array_filter($this->libros, function (Libro $libro) use ($qNormalizado, $genero, $tipo, $soloDestacados): bool {
+            $filtroQ = ($qNormalizado === '')
+                || str_contains(mb_strtolower($libro->getTitulo(), 'UTF-8'), $qNormalizado)
+                || str_contains(mb_strtolower($libro->getAutor(), 'UTF-8'), $qNormalizado);
+
+            $filtroGenero = ($genero === '') || ($libro->getGenero() === $genero);
+            $filtroTipo = ($tipo === '') || ($libro->getTipo() === $tipo);
+            $filtroDestacados = !$soloDestacados || $libro->getDestacado();
+
+            return $filtroQ && $filtroGenero && $filtroTipo && $filtroDestacados;
+        });
+
+        return array_values($filtrados);
     }
 
-    public function filas(array $libros): array {
-        return array_map(
-            fn(Libro $l) => [
-                "titulo" => $l->titulo(),
-                "autor" => $l->autor(),
-                "paginas" => $l->paginas(),
-                "genero" => $l->genero(),
-                "tipo" => $l->getTipo(),
-                "unidades" => $l->uidades(),
-                "fechaAlta" => $l->fechaAlta() ?->format('Y-m-D') ?? "Sin fecha",
-                "destacado" => $l->destacado(),
-                "observaciones" => $l->observaciones(),
-                "costeCentimos" => $l->costeRepositorioCentimos(),
-            ],
-            $libros
-        );
+    public function filas(array $libros): array
+    {
+        return array_map(function (Libro $libro): array {
+            $fecha = $libro->getFechaAlta();
+            return [
+                'titulo' => $libro->getTitulo(),
+                'autor' => $libro->getAutor(),
+                'paginas' => $libro->getPaginas(),
+                'genero' => $libro->getGenero(),
+                'tipo' => $libro->getTipo(),
+                'unidades' => $libro->getUnidades(),
+                'fechaAlta' => $fecha !== null ? $fecha->format('Y-m-d') : 'Sin fecha',
+                'destacado' => $libro->getDestacado(),
+                'observaciones' => $libro->getObservaciones(),
+                'costeCentimos' => $libro->costeReposicionCentimos(),
+            ];
+        }, $libros);
     }
 
-    public function resumen(array $libros): array {
+    public function resumen(array $libros): array
+    {
         return array_reduce(
-            $this->todos,
-            fn(array $carry, Libro $l) => [
-                "titulo" => ++$carry["titulo"],
-                "unidades" => 
+            $libros,
+            function (array $acum, Libro $libro): array {
+                $acum['titulos']++;
+                $acum['unidades'] += $libro->getUnidades();
+                $acum['paginas'] += $libro->getPaginas();
+                $acum['costeCentimos'] += $libro->costeReposicionCentimos();
+                return $acum;
+            },
+            [
+                'titulos' => 0,
+                'unidades' => 0,
+                'paginas' => 0,
+                'costeCentimos' => 0,
             ]
-        )
+        );
     }
-        
-        
 }

@@ -1,27 +1,22 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-require_once dirname(__DIR__) . '/datos/libros.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Juan\Biblioteca\Servicio\BibliotecaService;
+use Jose\Biblioteca\Servicio\BibliotecaService;
 
-$bibService = new BibliotecaService($libros);
+$libros = require dirname(__DIR__) . '/datos/libros.php';
+$servicio = new BibliotecaService($libros);
 
-$q = $_GET['q'] ?? '';
-$genero = $_GET['genero'] ?? '';
-$tipo = $_GET['tipo'] ?? '';
+// obtenemos los filtros enviados por la url
+$q = isset($_GET['q']) && is_string($_GET['q']) ? $_GET['q'] : '';
+$genero = isset($_GET['genero']) && is_string($_GET['genero']) ? $_GET['genero'] : '';
+$tipo = isset($_GET['tipo']) && is_string($_GET['tipo']) ? $_GET['tipo'] : '';
 $soloDestacados = isset($_GET['destacados']);
 
-$librosFiltrados = $bibService->filtrar(
-    $q,
-    $genero,
-    $tipo,
-    $soloDestacados
-);
-
-$filas = $bibService->filas($librosFiltrados);
-$resumen = $bibService->resumen($librosFiltrados);
+$librosFiltrados = $servicio->filtrar($q, $genero, $tipo, $soloDestacados);
+$filas = $servicio->filas($librosFiltrados);
+$resumen = $servicio->resumen($librosFiltrados);
 
 require dirname(__DIR__) . '/vistas/catalogo.php';
