@@ -13,22 +13,31 @@ abstract class Libro {
         private int $paginas,
         private string $genero,
         private int $unidades,
-        private ?DateTimeImmutable $fechaAlta,
-        private bool $destacado,
-        private string $observaciones
+        private ?DateTimeImmutable $fechaAlta = null,
+        private bool $destacado = false,
+        private string $observaciones = ''
     )
     {
         $this->titulo = trim($this->titulo);
         $this->autor = trim($this->autor);
 
-        if ($this->titulo === '' || mb_strlen($this->titulo, 'UTF-8') > 120) {
+        if ($this->titulo === '' || mb_strlen($this->titulo, 'UTF-8') > 120)
             throw new InvalidArgumentException('titulo de mas de 120 caracteres');
-        }
 
-        if ($this->autor === '' || mb_strlen($this->autor, 'UTF-8') > 100) {
+        if ($this->autor === '' || mb_strlen($this->autor, 'UTF-8') > 100)
             throw new InvalidArgumentException('Autor de mas de 100 caracteres');
-        }
-        if ()
+        
+        if ($this->paginas < 1 || $this->paginas > 3000)
+            throw new InvalidArgumentException('Páginas no validas');
+
+        if (!in_array($this->genero, ['ciencia', 'fantasia', 'terror'], true))
+            throw new InvalidArgumentException('Género no valido');
+
+        if ($this->unidades < 1 || $this->unidades > 50)
+            throw new InvalidArgumentException('Unidades no valida');
+        
+        if (mb_strlen($this->observaciones, 'UTF-8') > 300)
+            throw new InvalidArgumentException('Las observaciones no pueden superar 300 caracteres');
     }
 
 
@@ -95,4 +104,8 @@ abstract class Libro {
     {
         return $this->observaciones;
     }
+
+    abstract public function getTipo(): string;
+
+    abstract public function costeReposicionCentimos(): int;
 }
