@@ -1,5 +1,5 @@
 {
-    "name": "jose/biblioteca",
+    "name": "jose/penarrieta",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -8,7 +8,7 @@
     },
     "authors": [
         {
-            "name": "Joseip",
+            "name": "joseiverp",
             "email": "14499483@alu.murciaeduca.es"
         }
     ],
