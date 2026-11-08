@@ -24,7 +24,7 @@ function leerTextos(array $entrada, array $campos): array
 
 function validarFiltros(array $entrada): array
 {
-    $r = leerTextos($entrada, ['q   ', 'categoria']);
+    $r = leerTextos($entrada, ['q', 'categoria']);
     if (!isset($r['errores']['q']) && mb_strlen($r['valores']['q'], 'UTF-8') > 120) {
         $r['errores']['q'] = 'La búsqueda admite hasta 120 caracteres.';
     }

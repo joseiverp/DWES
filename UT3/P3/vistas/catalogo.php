@@ -16,12 +16,12 @@ use function App\Soporte\e;
     </ul>
 <?php endif; ?>
 <!-- COMPLETAR 1. Formulario GET con controles HTML estáticos. -->
- <form action="index.php" method="get">
+<form method="get" action="index.php">
     <label for="q">Nombre o fabricante</label>
-    <input type="text" id="q" name="q">
+    <input type="text" id="q" name="q" value="">
 
     <label for="categoria">Categoría</label>
-    <select name="categoria" id="categoria">
+    <select id="categoria" name="categoria">
         <option value="">Todas</option>
         <option value="colectivo">Colectivo</option>
         <option value="raqueta">Raqueta</option>
@@ -29,11 +29,41 @@ use function App\Soporte\e;
     </select>
 
     <button type="submit">Buscar</button>
- </form>
+</form>
 
 <?php if ($errores === []): ?>
     <!-- COMPLETAR 3. Tabla de materiales o mensaje si no hay coincidencias. -->
-    
+    <?php if ($materiales !== []): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fabricante</th>
+                    <th>Unidades</th>
+                    <th>Categoría</th>
+                    <th>Fecha de alta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($materiales as $material): ?>
+                    <?php
+                    $fecha = $material->fechaAlta() !== null
+                        ? $material->fechaAlta()->format('Y-m-d')
+                        : 'Sin fecha';
+                    ?>
+                    <tr>
+                        <td><?= e($material->nombre()) ?></td>
+                        <td><?= e($material->fabricante()) ?></td>
+                        <td><?= $material->unidades() ?></td>
+                        <td><?= e($material->categoria()) ?></td>
+                        <td><?= e($fecha) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No hay materiales que coincidan.</p>
+    <?php endif; ?>
 <?php endif; ?>
 <p><a href="index.php">Limpiar filtros</a></p>
 </body>
