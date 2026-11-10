@@ -16,9 +16,14 @@ final class CatalogoControlador
         $errores = [];
         $materiales = [];
         // COMPLETAR 2. Validar $_GET y consultar solo si no hay errores.
-        $resultado = validarFiltros($_GET) {
-                
-        };
+        $resultado = validarFiltros($_GET);
+        $filtros = $resultado['valores'];
+        $errores = $resultado['errores'];
+
+        if ($errores === []) {
+            $materiales = $inventario->filtrar($filtros['q'], $filtros['categoria']);
+        }
+
         require dirname(__DIR__, 2) . '/vistas/catalogo.php';
     }
 }
