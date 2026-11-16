@@ -1,23 +1,29 @@
 <?php
+
 use function App\Soporte\e;
 ?>
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><title>Alta de un libro</title></head>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de un libro</title>
+</head>
+
 <body>
-<h1>Alta de un libro</h1>
-<?php if ($creado === null): ?>
-    <!-- Bloque de errores proporcionado. Cada entrada identifica el campo y su mensaje. -->
-    <?php if ($errores !== []): ?>
-        <ul role="alert">
-            <?php foreach ($errores as $campo => $mensaje): ?>
-                <li><?= e($campo) ?>: <?= e($mensaje) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
+    <h1>Alta de un libro</h1>
+    <?php if ($creado === null): ?>
+        <!-- Bloque de errores proporcionado. Cada entrada identifica el campo y su mensaje. -->
+        <?php if ($errores !== []): ?>
+            <ul role="alert">
+                <?php foreach ($errores as $campo => $mensaje): ?>
+                    <li><?= e($campo) ?>: <?= e($mensaje) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
         <!-- COMPLETAR 4. Formulario POST multipart con controles HTML estáticos. -->
         <form action="alta.php" method="post" enctype="multipart/form-data">
-                
+
             <label for="titulo">Título</label>
             <input type="text" id="titulo" name="titulo">
 
@@ -39,20 +45,25 @@ use function App\Soporte\e;
             <input type="text" name="fechaAlta" id="fechaAlta" placeholder=" YYYY-MM-DD">
 
             <label for="portada">Portada</label>
-            <input type="file" accept="image/jpeg,image/png,image/webp">
+            <input id="portada" name="portada" type="file" accept="image/jpeg,image/png,image/webp">
 
             <button type="submit">Guardar libro</button>
         </form>
-        
+
     <?php else: ?>
         <!-- Confirmación proporcionada. Solo aparece cuando asignas $creado. -->
         <h2>Libro creado</h2>
         <dl>
-            <dt>Título</dt><dd><?= e($creado->titulo()) ?></dd>
-            <dt>Autor</dt><dd><?= e($creado->autor()) ?></dd>
-            <dt>Páginas</dt><dd><?= $creado->paginas() ?></dd>
-            <dt>Género</dt><dd><?= e($creado->genero()) ?></dd>
-            <dt>Fecha de alta</dt><dd><?= e($creado->fechaAlta()?->format('Y-m-d') ?? 'Sin fecha') ?></dd>
+            <dt>Título</dt>
+            <dd><?= e($creado->titulo()) ?></dd>
+            <dt>Autor</dt>
+            <dd><?= e($creado->autor()) ?></dd>
+            <dt>Páginas</dt>
+            <dd><?= $creado->paginas() ?></dd>
+            <dt>Género</dt>
+            <dd><?= e($creado->genero()) ?></dd>
+            <dt>Fecha de alta</dt>
+            <dd><?= e($creado->fechaAlta()?->format('Y-m-d') ?? 'Sin fecha') ?></dd>
         </dl>
         <p>La colección de este envío contiene <?= count($biblioteca->todos()) ?> libros.</p>
         <?php if ($creado->portada() !== null): ?>
@@ -60,9 +71,10 @@ use function App\Soporte\e;
                 alt="Portada del libro creado" width="180">
         <?php else: ?>
             <p>Sin portada</p>
-    <?php endif; ?>
+        <?php endif; ?>
         <p><a href="alta.php">Nueva alta</a></p>
-<?php endif; ?>
-<p><a href="index.php">Volver al catálogo</a></p>
+    <?php endif; ?>
+    <p><a href="index.php">Volver al catálogo</a></p>
 </body>
+
 </html>

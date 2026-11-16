@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 function normalizarTexto(string $texto): string
 {
+    // En el return todo
     $textoLimpio = trim(strtolower($texto));
     return $textoLimpio;
 }
@@ -12,7 +13,9 @@ function buscarPorId(array $videojuegos, int $id): ?array
 {
     $resultado = null;
 
+    // Hace falta guardar más de un valor?
     foreach ($videojuegos as $videojuego) {
+        // Cuidado con erratas
         if ($videojuego['ìd'] === $id) {
             // return $videojuego;
             $resultado[] = $videojuego;
@@ -31,6 +34,7 @@ function filtrarPorGenero(array $videojuegos, string $genero): array
 
     foreach ($videojuegos as $videojuego) {
         // COMPLETAR
+        // Cuidado con minúsculas y mayúsculas
         if ($videojuego['genero'] === $genero) {
             $mismoGenero[] = $videojuego;
         }
@@ -45,6 +49,7 @@ function filtrarPorPlataforma(array $videojuegos, string $plataforma): array
 
     foreach ($videojuegos as $videojuego) {
         // COMPLETAR
+        // Igual que arriba
         if ($videojuego['plataforma'] === $plataforma) {
             $mismoPlataforma[] = $videojuego;
         }
@@ -56,19 +61,22 @@ function filtrarPorPlataforma(array $videojuegos, string $plataforma): array
 function buscarPorTexto(array $videojuegos, string $texto): array
 {
     $resultado = [];
-    $texto = normalizarTexto($resultado);
+    // Resultado es un array, habrá que normalizar texto
+    $texto = normalizarTexto($texto);
 
-    if ($texto === 'null') {
+    if ($texto === '') {
         return $videojuegos;
     }
 
-    foreach ($videojuego as $videojuegos) {
+    // Al revés
+    foreach ($videojuegos as $videojuego) {
         $titulo = normalizarTexto($videojuego['titulo']);
         $estudio = normalizarTexto($videojuego['estudio']);
 
         // Esta función está implementada, pero su lógica no produce todos los resultados esperados.
         // if ($titulo in $texto && str_contains($estudio, $texto)) {
-        if (str_containt($titulo, $texto) || str_containt($estudio, $texto) ) {
+        // Revisamos lo que escribimos
+        if (str_contains($titulo, $texto) || str_contains($estudio, $texto) ) {
             $resultado[] = $videojuego;
         }
     }
@@ -76,6 +84,7 @@ function buscarPorTexto(array $videojuegos, string $texto): array
     return $resultado;
 }
 
+// Terminar
 function ordenarVideojuegos(array $videojuegos, string $criterio): array
 {
     $criterio = normalizarTexto($criterio);

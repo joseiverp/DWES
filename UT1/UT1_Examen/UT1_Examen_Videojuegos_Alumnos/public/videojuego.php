@@ -6,11 +6,15 @@ require_once __DIR__ . '\..\src\funciones.php';
 
 $id = (int)$_GET['id'] ?? 0;
 
+// Falta obtener el videojuego
+$videojuego = buscarPorId($videojuegos, $id);
+
 if ($videojuego === null) {
     // Completa el tratamiento del caso en el que el videojuego no existe.
     echo 'Videojuego no encontrado';
 }
-    exit;
+// Fuera del if, no llega a nada más
+    // exit;
 ?>
 
 <?php
@@ -22,7 +26,8 @@ foreach($videojuegos as $videojuego){
 $fechaLanzamiento = new DateTimeImmutable($fechaLanzamiento);
 $hoy = new DateTimeImmutable('today');
 $diasTranscurridos = $fechaLanzamiento->diff($hoy);//0? Habrá que calcular algo, no?
-$diasTranscurridos = $diasTranscurridos->days();
+// days no es un método
+$diasTranscurridos = $diasTranscurridos->days;
 $finNovedad = null;
 $estado = '';
 

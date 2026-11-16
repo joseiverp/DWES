@@ -12,7 +12,8 @@ final class CaratulaTemporalTest extends TestCase
     private ?string $temporal = null;
 
     // COMPLETAR 10. setUp, prueba de rechazo y tearDown.
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
 
         $ruta = tempnam(sys_get_temp_dir(), 'ut3_');
 
@@ -23,16 +24,15 @@ final class CaratulaTemporalTest extends TestCase
         $this->temporal = $ruta;
 
         file_put_contents($ruta, 'Esto es un archivo de texto para la prueba.');
+    }
 
-        }
-        
-    public function testRechazaTextoComoCaratula(): void {
+    public function testRechazaTextoComoCaratula(): void
+    {
 
         $resultado = inspeccionarCaratula($this->entradaArchivo());
 
         $this->assertNull($resultado['archivo']);
         $this->assertNotNull($resultado['error']);
-
     }
 
     protected function tearDown(): void
@@ -40,7 +40,10 @@ final class CaratulaTemporalTest extends TestCase
         if ($this->temporal !== null && is_file($this->temporal)) {
             unlink($this->temporal);
         }
-        $this->assertFalse(is_file($this->temporal));
+
+        if ($this->temporal !== null) {
+            $this->assertFileDoesNotExist($this->temporal);
+        }
     }
 
 
