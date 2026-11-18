@@ -1,0 +1,61 @@
+:root {
+  font:
+    1rem/1.5 system-ui,
+    sans-serif;
+}
+body {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1.25rem;
+  color: #1b2830;
+  background: #fff;
+}
+header {
+  border-bottom: 2px solid #167c80;
+  padding-bottom: 1rem;
+}
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+}
+a {
+  color: #125e66;
+}
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+label {
+  font-weight: 600;
+}
+button,
+input,
+select {
+  font: inherit;
+  padding: 0.28rem 0.55rem;
+}
+.libros {
+  padding: 0;
+  list-style: none;
+}
+.libros li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #9caeb0;
+  padding: 0.65rem 0;
+}
+.aviso {
+  border-left: 4px solid #167c80;
+  padding: 0.35rem 0.75rem;
+}
+
+body.oscuro {
+    color:white;
+    background-color: black;
+}
