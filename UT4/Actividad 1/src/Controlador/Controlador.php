@@ -12,6 +12,7 @@ abstract class Controlador
         extract($datos, EXTR_SKIP);
         // Sacar el tema
         $tema = $_COOKIE['tema'] ?? null;
+        $densidad = ($_COOKIE[])
         require dirname(__DIR__, 2) . '/vistas/cabecera.php';
         require dirname(__DIR__, 2) . '/vistas/' . $nombre . '.php';
         require dirname(__DIR__, 2) . '/vistas/pie.php';

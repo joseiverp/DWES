@@ -23,7 +23,7 @@ final class PreferenciasControlador extends Controlador {
 
     public function guardarCookie(string $cookie, string $valor): void {
 
-        setcookie('tema', 'oscuro', [
+        setcookie($cookie, $valor, [
             'expires' => time() + 60 * 60 * 24 * 30,
             'path' => '/',
             'secure' => true,

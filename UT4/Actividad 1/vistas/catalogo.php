@@ -10,6 +10,17 @@
     <button type="submit">Guardar Tema</button>
 </form>
 
+<form action="preferencias.php" method="post">
+    <label for="espaciado">Espaciado</label>
+    <select name="espaciado" id="espaciado">
+        <option value="compacto">Compacto</option>
+        <option value="ampliado">Ampliado</option>
+    </select>
+
+    <button type="submit">Guardar espaciado</button>
+</form>
+
+
 <form method="get" action="index.php">
     <label for="q">Buscar por título</label>
     <input id="q" name="q" value="<?= e($q) ?>">
