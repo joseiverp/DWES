@@ -10,25 +10,31 @@ use function App\Soporte\soloMetodos;
 final class FavoritosControlador extends Controlador {
     
     public function cambiar():void{
-        soloMetodos($_POST);
+        soloMetodos(['POST']);
 
         $entrada = $_POST['id'] ?? null;
         // validar la entrada
 
-        $id = is_string($entrada);
+        $id = is_string($entrada) ?
+            filter_var($entrada, FILTER_VALIDATE_INT, ['options' =>['min_range' => 1]])
+            : false; 
         if($id === false) {
             http_response_code(400);
             exit;
         }
 
         if($this->app['catalogo']->buscarPorId($id) === null) {
-            http_response_code(400);
+            http_response_code(404);
             exit;
         }
 
         $favoritos = $_SESSION['favoritos'] ?? [];
         if (!in_array($id, $favoritos, true)) {
             $favoritos[] = $id;
+            $_SESSION['flash'] = 'Libro añadido a favorito';
+        } else {
+            $key = array_search($id, $favoritos, true);
+            unset($favoritos[$key]);
         }
 
         $_SESSION['favoritos'] = $favoritos;

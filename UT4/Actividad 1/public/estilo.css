@@ -59,3 +59,7 @@ body.oscuro {
     color:white;
     background-color: black;
 }
+
+body.compacta .libros li {
+    padding-block: .2rem;
+}

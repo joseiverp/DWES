@@ -6,9 +6,12 @@
     <title>Biblioteca de aula</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
-<body class="<?= $tema ?>">
-<header>
-    <h1>Biblioteca de aula</h1>
-    <nav><a href="index.php">Catálogo</a></nav>
-</header>
+<body class="<?= $tema ?> <?= $densidad ?>">
+    <header>
+        <h1>Biblioteca de aula</h1>
+        <nav><a href="index.php">Catálogo</a></nav>
+    </header>
+    <?php if ($aviso !== null): ?>
+        <p class="aviso"><?= \App\Soporte\e($aviso) ?></p>
+    <?php endif; ?>
 <main>

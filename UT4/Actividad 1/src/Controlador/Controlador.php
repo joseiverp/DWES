@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controlador;
@@ -10,9 +11,9 @@ abstract class Controlador
     protected function vista(string $nombre, array $datos = []): void
     {
         extract($datos, EXTR_SKIP);
-        // Sacar el tema
-        $tema = $_COOKIE['tema'] ?? null;
-        $densidad = ($_COOKIE[])
+        $aviso = $_SERVER['REQUEST_METHOD'] === 'GET' ?  \App\Soporte\flash() : null;
+        $tema = ($_COOKIE['tema'] ?? null) === 'oscuro' ? 'oscuro' : 'claro';
+        $densidad = ($_COOKIE['densidad'] ?? null) === 'compacta' ? 'compacta' : 'normal';
         require dirname(__DIR__, 2) . '/vistas/cabecera.php';
         require dirname(__DIR__, 2) . '/vistas/' . $nombre . '.php';
         require dirname(__DIR__, 2) . '/vistas/pie.php';
