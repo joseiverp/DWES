@@ -20,4 +20,12 @@ final class AuthService {
         $this->usuarios->guardar($usuario);
         return $usuario;
     }
+
+    public function autenticar(string $email, string $clave): ?Usuario {
+        $usuario = $this->usuarios->buscarPorEmail($email);
+        if ($usuario === null || !password_verify($clave, $usuario->passwordHash)) {
+            return null;
+        }
+        return $usuario;
+    }
 }
